@@ -12,8 +12,5 @@ import { AuthInterceptor } from '../interceptors/auth.interceptor';
     CommonModule,
     PagesRoutingModule,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-  ],
 })
 export class PagesModule { }

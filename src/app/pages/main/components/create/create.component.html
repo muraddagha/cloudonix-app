@@ -1,0 +1,45 @@
+<div class="drawer z-50 drawer-end">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-side">
+        <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+        <div class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+
+            <form class='flex flex-col gap-5 pr-3' [formGroup]="form" (ngSubmit)="submit()">
+                <div class="divider divider-primary my-2">New Product</div>
+
+                <div class="form-group">
+                    <label class="input input-bordered flex items-center gap-2 input-md">
+                        <input required type="text" placeholder="Name" formControlName="name" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="input input-bordered flex items-center gap-2 input-md">
+                        <input required type="text" placeholder="Sku" formControlName="sku" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="input input-bordered flex items-center gap-2 input-md">
+                        <input required type="number" placeholder="Cost" formControlName="cost" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <select class="select select-bordered w-full max-w-xs" formControlName="profile">
+                        <option>furniture</option>
+                        <option>equipment</option>
+                        <option>stationary</option>
+                        <option>part</option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="textarea w-full" placeholder="Description"
+                        formControlName="description"></textarea>
+                </div>
+                <button class=" btn w-full btn-primary" type='submit'>
+                    Create
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

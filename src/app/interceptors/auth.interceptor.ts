@@ -30,7 +30,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 if (err instanceof HttpErrorResponse && err.status == 401) {
                     this.authService.logout();
                     this.router.navigate(["/auth"]);
-                    //   this.notifier.notify("error", "Login")
                     return of(err as any);
                 }
                 throw err;

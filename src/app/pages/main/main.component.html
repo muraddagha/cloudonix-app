@@ -1,1 +1,100 @@
-<p class="text-3xl underline">main works!</p>
+<section class="container mx-auto">
+    <header>
+        <app-navbar />
+    </header>
+
+    <main class="mb-5">
+        <div class="divider divider-primary my-5 text-3xl">Products</div>
+        <div class="flex justify-end"><label for="my-drawer" class="btn btn-neutral drawer-button">Create New
+                Product</label></div>
+        <app-create></app-create>
+        <div class="overflow-x-auto">
+            <ng-container *ngIf="loading">
+                <div class=" flex justify-center items-center my-5">
+                    <span class="loading loading-bars loading-lg"></span>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!loading">
+                <table class="table table-zebra">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Cost</th>
+                            <th>Sku</th>
+                            <th>Type</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <ng-container *ngFor="let item of products">
+                            <tr>
+                                <th>#{{item.id}}</th>
+                                <td>{{item.name}}
+                                    <button class="btn btn-xs btn-ghost underline" (click)="showDetails(item)">see
+                                        details</button>
+                                </td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.cost}}</td>
+                                <td>{{item.sku}}</td>
+                                <td>{{item.profile.type}}</td>
+                                <td class="flex justify-center items-center gap-3">
+                                    <button type="button" class="btn btn-circle btn-neutral btn-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="#ffbe00"
+                                            id="Pencil-Simple--Streamline-Phosphor" height="16" width="16">
+                                            <path
+                                                d="m14.505111328125 3.779115234375 -3.283857421875 -3.28458984375c-0.45925781250000003 -0.459369140625 -1.2039785156249998 -0.459369140625 -1.6632421874999999 0L0.49507617187499997 9.55819921875c-0.22153710937499999 0.2197734375 -0.34569726562499997 0.5191992187500001 -0.344701171875 0.831251953125v3.28458984375c0 0.64944140625 0.5265117187499999 1.175923828125 1.1759531250000002 1.1759531250000002h3.28458984375c0.31205273437500003 0.00099609375 0.611478515625 -0.123169921875 0.831251953125 -0.344701171875L14.505111328125 5.442357421875c0.45936328125000003 -0.459263671875 0.45936328125000003 -1.2039843749999999 0 -1.6632421874999999ZM4.61091796875 13.674041015624999H1.3263281249999999v-3.28458984375l6.46775390625 -6.46775390625 3.28458984375 3.28458984375ZM11.909923828124999 6.374296875l-3.28458984375 -3.2838515625 1.7639296875 -1.763935546875 3.28458984375 3.283857421875Z"
+                                                stroke-width="1"></path>
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn btn-circle btn-neutral btn-sm"
+                                        (click)="confirmDialog(item)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="#ff5861"
+                                            id="Trash--Streamline-Phosphor" height="16" width="16">
+                                            <path
+                                                d="M13.719228515625 2.411537109375h-2.826919921875v-0.5653828125c0 -0.9367617187499999 -0.759392578125 -1.696154296875 -1.696154296875 -1.696154296875H5.803845703125c-0.9367617187499999 0 -1.696154296875 0.759392578125 -1.696154296875 1.696154296875v0.5653828125H1.280771484375c-0.435234375 0 -0.7072558593749999 0.47115234375000004 -0.48963867187500004 0.848080078125 0.1009921875 0.174919921875 0.287654296875 0.2826796875 0.48963867187500004 0.28269140625h0.5653828125v10.176919921875001c0 0.6244863281249999 0.506279296875 1.1307421874999999 1.130765625 1.130771484375h9.046154296874999c0.6244863281249999 -0.000029296875 1.130771484375 -0.5062851562499999 1.130771484375 -1.130771484375V3.5423085937499996h0.5653828125c0.435234375 0 0.7072558593749999 -0.47115234375000004 0.48963867187500004 -0.848080078125 -0.1009921875 -0.174919921875 -0.287654296875 -0.2826796875 -0.48963867187500004 -0.28269140625ZM5.238462890625 1.846154296875c0 -0.312263671875 0.25311914062499996 -0.565400390625 0.5653828125 -0.5653828125h3.39230859375c0.31225195312500004 0 0.5653828125 0.253130859375 0.5653828125 0.5653828125v0.5653828125H5.238462890625Zm6.784611328125 11.87307421875H2.97692578125V3.5423085937499996h9.0461484375Zm-5.6538457031250005 -7.35v4.523080078125c0 0.435234375 -0.47115234375000004 0.7072558593749999 -0.84807421875 0.48963867187500004 -0.174931640625 -0.100998046875 -0.28269140625 -0.2876484375 -0.28269140625 -0.48963867187500004v-4.523080078125c0 -0.43522851562500003 0.47115234375000004 -0.7072499999999999 0.84807421875 -0.4896328125 0.174931640625 0.1009921875 0.28269140625 0.287642578125 0.28269140625 0.4896328125Zm3.39230859375 0v4.523080078125c0 0.435234375 -0.47115234375000004 0.7072558593749999 -0.84807421875 0.48963867187500004 -0.174931640625 -0.100998046875 -0.28269140625 -0.2876484375 -0.28269140625 -0.48963867187500004v-4.523080078125c0 -0.43522851562500003 0.47115234375000004 -0.7072499999999999 0.84807421875 -0.4896328125 0.174931640625 0.1009921875 0.28269140625 0.287642578125 0.28269140625 0.4896328125Z"
+                                                stroke-width="1"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </ng-container>
+
+
+        </div>
+    </main>
+</section>
+
+<dialog #detailsModal class="modal">
+    <div class="modal-box">
+        <p class="py-4">{{selectedProduct?.description}}</p>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
+
+<dialog #confirmModal class="modal">
+    <div class="modal-box w-96">
+        <div class="card">
+            <div class="card-body items-center text-center p-4">
+                <h2 class="card-title text-xl mb-4">Are you sure you want to remove this product?</h2>
+                <div class="card-actions justify-end">
+                    <button class="btn btn-primary" [disabled]="removeLoading" (click)="removeProduct()">
+                        <span *ngIf="removeLoading" class="loading loading-spinner loading-sm"></span>
+                        Yes
+                    </button>
+                    <button class="btn btn-ghost" (click)="confirmModal.close()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
