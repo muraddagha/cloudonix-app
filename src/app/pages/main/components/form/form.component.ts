@@ -3,22 +3,24 @@ import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule, V
 import { IProduct } from '../../../../models/product.model';
 import { ApiService } from '../../../../services/api/api.service';
 import { CommonModule } from '@angular/common';
+import { ProfileEditorComponent } from "../profile-editor/profile-editor.component";
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, ProfileEditorComponent],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })
 export class FormComponent {
   @ViewChild('createDrawer') createDrawer!: ElementRef;
+  @ViewChild(ProfileEditorComponent) profileEditorComponent!: ProfileEditorComponent;
+
   @Output() updateListTrigger: EventEmitter<boolean> = new EventEmitter(false);
   updatedProduct: IProduct | null = null;
 
   public form: FormGroup = new FormGroup({});
   public loading: boolean = false;
-  public types = ['furniture', 'equipment', 'stationary', 'part'];
 
   constructor(
     private fb: FormBuilder,
@@ -46,38 +48,16 @@ export class FormComponent {
   }
 
   public patchUpdateData(product: any): void {
+    this.form.get('profile')?.get('backlog')?.reset();
+    this.form.get('profile')?.get('available')?.patchValue(true);
+    
     this.updatedProduct = product;
     this.form.patchValue(product);
-    Object.keys(product.profile).forEach(e => {
-      if (e != 'type' && e != 'available' && e != 'backlog') {
-        const propertyForm = this.fb.group({
-          key: [e, Validators.required],
-          value: [product.profile[e], Validators.required]
-        });
-        propertyForm.get('key')?.disable();
-
-        this.customProperties.push(propertyForm);
-      }
-    })
-  }
-
-  public get customProperties() {
-    return this.form.get('profile.customProperties') as FormArray;
-  }
-
-  public addCustomProperty() {
-    const propertyForm = this.fb.group({
-      key: ['', Validators.required],
-      value: ['', Validators.required]
-    });
-    this.customProperties.push(propertyForm);
-  }
-
-  public deleteCustomProperty(index: number) {
-    this.customProperties.removeAt(index);
+    this.profileEditorComponent.updateProperties(product);
   }
 
   public submit(): void {
+    this.form.markAllAsTouched();
     if (this.form.invalid) return;
     this.loading = true;
     let profile: any = {
@@ -122,7 +102,7 @@ export class FormComponent {
   }
   public resetForm(): void {
     this.form.reset();
-    this.customProperties.clear();
+    (this.form.get('profile.customProperties') as FormArray).clear();
     this.generateForm();
     this.updatedProduct = null;
   }

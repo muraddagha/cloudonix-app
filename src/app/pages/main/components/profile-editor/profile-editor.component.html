@@ -1,0 +1,47 @@
+<ng-container [formGroup]="profile">
+    <div class="divider divider-primary my-2">Profile</div>
+
+    <div class="form-group flex items-center">
+        <div class="label">
+            <span class="label-text">Type: </span>
+        </div>
+        <select class="select select-bordered w-full max-w-xs select-xs" formControlName="type">
+            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+        </select>
+    </div>
+    <div class="form-group flex items-center">
+        <div class="label">
+            <span class="label-text">Backlog: </span>
+        </div>
+        <label class="input input-bordered flex items-center gap-2 input-xs">
+            <input min="1" class="w-full" min="1" placeholder="Not set" type="number" formControlName="backlog" />
+        </label>
+    </div>
+    <div class="form-group flex items-center">
+        <div class="label">
+            <span class="label-text">Available: </span>
+        </div>
+        <input type="checkbox" formControlName="available" checked="checked" class="checkbox checkbox-xs" />
+    </div>
+    <button type="button" class="btn btn-primary btn-xs w-full my-2" (click)="addCustomProperty()">Add
+        Property</button>
+    <ng-container formArrayName="customProperties">
+        <div *ngFor="let property of customProperties.controls; let i = index" [formGroupName]="i">
+            <div class="form-group flex items-center gap-4 my-2">
+                <div>
+                    <label class="input input-bordered flex items-center gap-2 input-xs">
+                        <input class="w-full" type="text" placeholder="Key" formControlName="key" />
+                    </label>
+                </div>
+                <div>
+                    <label class="input input-bordered flex items-center gap-2 input-xs">
+                        <input class="w-full" type="text" placeholder="Value" formControlName="value" />
+                    </label>
+                </div>
+            </div>
+            <button type="button" (click)="deleteCustomProperty(i)"
+                class="btn btn-error btn-xs mt-2 text-xs w-full">Delete</button>
+            <div class="divider divider-start m-0"></div>
+        </div>
+    </ng-container>
+</ng-container>

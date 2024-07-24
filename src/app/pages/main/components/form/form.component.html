@@ -15,7 +15,8 @@
                     <label class="input input-bordered flex items-center gap-2 input-md">
                         <input class="w-full" required type="text" placeholder="Name" formControlName="name" />
                     </label>
-                    <div *ngIf="form.get('name')?.errors && form.touched" class="text-error text-xs mx-2 mt-2">
+                    <div *ngIf="form.get('name')?.errors && form.get('name')?.touched"
+                        class="text-error text-xs mx-2 mt-2">
                         Name is required
                     </div>
                 </div>
@@ -27,7 +28,8 @@
                         <label class="input input-bordered flex items-center gap-2 input-md">
                             <input class="w-full" required type="text" placeholder="Sku" formControlName="sku" />
                         </label>
-                        <div *ngIf="form.get('sku')?.errors && form.touched" class="text-error text-xs  mx-2 mt-2">
+                        <div *ngIf="form.get('sku')?.errors && form.get('sku')?.touched"
+                            class="text-error text-xs  mx-2 mt-2">
                             Sku is required
                         </div>
                     </div>
@@ -40,7 +42,7 @@
                         <input min="1" class="w-full" required type="number" placeholder="Price"
                             formControlName="cost" />
                     </label>
-                    <div *ngIf="form.get('cost')?.errors?.['invalidDecimal'] && form.touched"
+                    <div *ngIf="form.get('cost')?.errors?.['invalidDecimal'] && form.get('cost')?.touched"
                         class="text-error text-xs m-2">
                         Enter a positive number with up to 2 decimal points.
                     </div>
@@ -51,63 +53,14 @@
                     </div>
                     <textarea class="textarea w-full" placeholder="Description" cols="5" rows="5"
                         formControlName="description"></textarea>
-                    <div *ngIf="form.get('description')?.errors && form.touched" class="text-error text-xs mx-2 mt-2">
+                    <div *ngIf="form.get('description')?.errors && form.get('description')?.touched"
+                        class="text-error text-xs mx-2 mt-2">
                         Description is required
                     </div>
                 </div>
 
-                <ng-container formGroupName="profile">
-                    <div class="divider divider-primary my-2">Profile</div>
-                    <button type="button" class="btn btn-primary btn-xs" (click)="addCustomProperty()">Add
-                        Property</button>
-                    <div class="form-group flex items-center">
-                        <div class="label">
-                            <span class="label-text">Type: </span>
-                        </div>
-                        <select class="select select-bordered w-full max-w-xs select-xs" formControlName="type">
-                            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
-                        </select>
-                        <div *ngIf="form.get('type')?.errors && form.touched" class="text-error text-xs  mx-2 mt-2">
-                            Type is required
-                        </div>
-                    </div>
-                    <div class="form-group flex items-center">
-                        <div class="label">
-                            <span class="label-text">Backlog: </span>
-                        </div>
-                        <label class="input input-bordered flex items-center gap-2 input-xs">
-                            <input min="1" class="w-full" min="1" placeholder="Not set" type="number"
-                                formControlName="backlog" />
-                        </label>
-                    </div>
-                    <div class="form-group flex items-center">
-                        <div class="label">
-                            <span class="label-text">Available: </span>
-                        </div>
-                        <input type="checkbox" formControlName="available" checked="checked"
-                            class="checkbox checkbox-xs" />
-                    </div>
-                    <ng-container formArrayName="customProperties">
-                        <div *ngFor="let property of customProperties.controls; let i = index" [formGroupName]="i">
-                            <div class="form-group flex items-center gap-4">
-                                <div>
-                                    <label class="input input-bordered flex items-center gap-2 input-xs">
-                                        <input class="w-full" type="text" placeholder="Key" formControlName="key" />
-                                    </label>
-                                </div>
-                                <div>
-                                    <label class="input input-bordered flex items-center gap-2 input-xs">
-                                        <input class="w-full" type="text" placeholder="Value" formControlName="value" />
-                                    </label>
-                                </div>
-                            </div>
-                            <button type="button" (click)="deleteCustomProperty(i)"
-                                class="btn btn-error btn-xs mt-2 text-xs w-full">Delete</button>
-                            <div class="divider divider-start m-0"></div>
-                        </div>
-                    </ng-container>
+                <app-profile-editor [profile]="form.get('profile')"></app-profile-editor>
 
-                </ng-container>
                 <button class=" btn w-full btn-primary" type='submit' [disabled]="loading">
                     <span *ngIf="loading" class="loading loading-spinner loading-sm"></span>
                     {{!updatedProduct?'Create':'Update'}}

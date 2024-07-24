@@ -74,7 +74,6 @@ export class MainComponent implements OnInit {
   }
 
   public setUpdateData(product: IProduct): void {
-    this.appFormComponent.resetForm();
     this.appFormComponent.patchUpdateData({ ...product });
     this.updateDrawerButton.nativeElement.click();
   }
