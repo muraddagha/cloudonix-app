@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IProduct } from '../../models/product.model';
+import { IProduct, IProfile } from '../../models/product.model';
 import { ApiService } from '../../services/api/api.service';
-import { CreateComponent } from './components/create/create.component';
+import { FormComponent } from './components/form/form.component';
 
 @Component({
   selector: 'app-main',
@@ -12,7 +12,7 @@ export class MainComponent implements OnInit {
   @ViewChild('detailsModal') detailsModal!: ElementRef;
   @ViewChild('confirmModal') confirmModal!: ElementRef;
   @ViewChild('updateDrawerButton') updateDrawerButton!: ElementRef;
-  @ViewChild(CreateComponent) appCreateComponent!: CreateComponent;
+  @ViewChild(FormComponent) appFormComponent!: FormComponent;
 
   public loading: boolean = false;
   public removeLoading: boolean = false;
@@ -70,12 +70,18 @@ export class MainComponent implements OnInit {
     })
   }
   public openCreateDrawer(): void {
-    this.appCreateComponent.resetForm();
+    this.appFormComponent.resetForm();
   }
 
   public setUpdateData(product: IProduct): void {
-    this.appCreateComponent.patchUpdateData({ ...product });
+    this.appFormComponent.resetForm();
+    this.appFormComponent.patchUpdateData({ ...product });
     this.updateDrawerButton.nativeElement.click();
+  }
+
+  public getProfileProperties(profile: any): any {
+    if (!profile) return;
+    return Object.keys(profile)
   }
 
 }

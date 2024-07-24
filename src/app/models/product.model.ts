@@ -4,7 +4,7 @@ export interface IProduct {
     description: string
     sku: string,
     cost: number,
-    profile: IProfile
+    profile: any;
 }
 
 export interface IProfile {

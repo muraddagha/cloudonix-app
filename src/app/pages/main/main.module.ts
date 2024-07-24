@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MainRoutingModule } from './main-routing.module';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { MainComponent } from './main.component';
-import { CreateComponent } from "./components/create/create.component";
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-
+import { FormComponent } from './components/form/form.component';
 
 @NgModule({
-  declarations: [MainComponent, CreateComponent],
+  declarations: [MainComponent],
   imports: [
     CommonModule,
     MainRoutingModule,
     NavbarComponent,
-    ReactiveFormsModule,
-    FormsModule,
+    FormComponent
   ]
 })
 export class MainModule { }

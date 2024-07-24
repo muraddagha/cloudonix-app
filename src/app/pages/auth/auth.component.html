@@ -15,7 +15,7 @@
                                 formControlName="authorizationKey" />
                         </label>
                     </div>
-                    <button class="btn w-full btn-primary" type='submit' [disabled]="!form.valid">
+                    <button class="btn w-full btn-primary" type='submit' [disabled]="!form.valid || form.get('authorizationKey')?.value.trim() === ''">
                         Login
                     </button>
                 </form>
