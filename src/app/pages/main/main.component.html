@@ -5,9 +5,13 @@
 
     <main class="mb-5">
         <div class="divider divider-primary my-5 text-3xl">Products</div>
-        <div class="flex justify-end"><label for="my-drawer" class="btn btn-neutral drawer-button">Create New
-                Product</label></div>
-        <app-create></app-create>
+        <div class="flex justify-end">
+            <label for="my-drawer" class="btn btn-neutral drawer-button" (click)="openCreateDrawer()"> Create New
+                Product </label>
+        </div>
+
+        <app-create (updateListTrigger)="getItems()"></app-create>
+
         <div class="overflow-x-auto">
             <ng-container *ngIf="loading">
                 <div class=" flex justify-center items-center my-5">
@@ -41,7 +45,11 @@
                                 <td>{{item.sku}}</td>
                                 <td>{{item.profile.type}}</td>
                                 <td class="flex justify-center items-center gap-3">
-                                    <button type="button" class="btn btn-circle btn-neutral btn-sm">
+                                    <label #updateDrawerButton for="my-drawer"
+                                        class="btn btn-neutral drawer-button hidden"></label>
+
+                                    <button type="button" class="cursor-pointer btn btn-circle btn-neutral btn-sm"
+                                        (click)="setUpdateData(item)">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="#ffbe00"
                                             id="Pencil-Simple--Streamline-Phosphor" height="16" width="16">
                                             <path
@@ -49,6 +57,8 @@
                                                 stroke-width="1"></path>
                                         </svg>
                                     </button>
+
+
                                     <button type="button" class="btn btn-circle btn-neutral btn-sm"
                                         (click)="confirmDialog(item)">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16" fill="#ff5861"
@@ -64,8 +74,6 @@
                     </tbody>
                 </table>
             </ng-container>
-
-
         </div>
     </main>
 </section>

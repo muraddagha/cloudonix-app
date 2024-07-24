@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IProduct } from '../../models/product.model';
 import { ApiService } from '../../services/api/api.service';
+import { CreateComponent } from './components/create/create.component';
 
 @Component({
   selector: 'app-main',
@@ -10,12 +11,16 @@ import { ApiService } from '../../services/api/api.service';
 export class MainComponent implements OnInit {
   @ViewChild('detailsModal') detailsModal!: ElementRef;
   @ViewChild('confirmModal') confirmModal!: ElementRef;
+  @ViewChild('updateDrawerButton') updateDrawerButton!: ElementRef;
+  @ViewChild(CreateComponent) appCreateComponent!: CreateComponent;
 
   public loading: boolean = false;
   public removeLoading: boolean = false;
 
   public products: IProduct[] = [];
   public selectedProduct: IProduct | null = null;
+  public updatedProduct: IProduct | null = null;
+
   constructor(private apiService: ApiService) {
 
   }
@@ -23,12 +28,11 @@ export class MainComponent implements OnInit {
     this.getItems();
   }
 
-  private getItems() {
+  public getItems() {
     this.loading = true;
     this.apiService.get("items").subscribe({
       next: (res) => {
         this.products = res;
-        // console.log(res)
       },
       error: (err) => {
       },
@@ -64,6 +68,14 @@ export class MainComponent implements OnInit {
         this.selectedProduct = null;
       }
     })
+  }
+  public openCreateDrawer(): void {
+    this.appCreateComponent.resetForm();
+  }
+
+  public setUpdateData(product: IProduct): void {
+    this.appCreateComponent.patchUpdateData({ ...product });
+    this.updateDrawerButton.nativeElement.click();
   }
 
 }

@@ -28,7 +28,6 @@ export class AuthService {
   }
 
   public login(jwtToken: string): void {
-    console.log()
     this.logout();
     localStorage.setItem('token', jwtToken);
     this.currentUserTknSubject.next(jwtToken);

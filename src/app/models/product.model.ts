@@ -10,7 +10,3 @@ export interface IProduct {
 export interface IProfile {
     type: string
 }
-
-// export enum ProfileType{
-
-// }
